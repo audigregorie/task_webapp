@@ -1,1 +1,7 @@
-<p>task-tab-list works!</p>
+<ul>
+  @for (taskTab of taskTabList(); track taskTab.id) {
+  <li>
+    <a routerLink="">{{ taskTab.title }}</a>
+  </li>
+  }
+</ul>

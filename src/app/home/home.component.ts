@@ -5,11 +5,17 @@ import { DialogFormComponent } from '../shared/ui/dialog-form/dialog-form.compon
 import { TaskTab } from '../shared/types/task-tab.type';
 import { FormBuilder } from '@angular/forms';
 import { TaskTabService } from '../shared/data-access/task-tab.service';
+import { TaskTabListComponent } from '../features/task-tab-list/task-tab-list.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, DialogComponent, DialogFormComponent],
+  imports: [
+    HeaderComponent,
+    DialogComponent,
+    DialogFormComponent,
+    TaskTabListComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

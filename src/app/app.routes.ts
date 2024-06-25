@@ -6,5 +6,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./home/home.component').then((m) => m.HomeComponent),
   },
+  // {path: 'task-tab/:id', }
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
