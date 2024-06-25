@@ -1,0 +1,14 @@
+<header>
+  <h2>{{ title() }}</h2>
+  <button (click)="(close.emit)" type="button">Close</button>
+</header>
+
+<form [formGroup]="formGroup()" (ngSubmit)="(save.emit); (close.emit)">
+  @for (control of formGroup().controls | keyvalue; track control.key) {
+  <div>
+    <label [for]="control.key">{{ control.key }}</label>
+    <input [formControlName]="control.key" [id]="control.key" type="text" />
+  </div>
+  }
+  <button type="submit">Save</button>
+</form>
