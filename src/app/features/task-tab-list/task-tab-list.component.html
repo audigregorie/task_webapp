@@ -1,7 +1,9 @@
 <ul>
   @for (taskTab of taskTabList(); track taskTab.id) {
-  <li>
-    <a routerLink="">{{ taskTab.title }}</a>
-  </li>
+    <li>
+      <a routerLink="/task-tab/{{ taskTab.id }}">{{ taskTab.title }}</a>
+    </li>
+  } @empty {
+    <p>Click the add button to create your first checklist!</p>
   }
 </ul>
