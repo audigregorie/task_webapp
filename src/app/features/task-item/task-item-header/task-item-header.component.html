@@ -1,0 +1,12 @@
+<header class="flex gap-10">
+  <div>
+    <a routerLink="/">Back</a>
+    <h2>{{ taskTab().title }}</h2>
+  </div>
+
+  <div>
+    <button (click)="addItem.emit()" type="button" class="button-17">
+      Add item
+    </button>
+  </div>
+</header>

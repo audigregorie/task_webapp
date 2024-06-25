@@ -9,8 +9,8 @@ export const routes: Routes = [
   {
     path: 'task-tab/:id',
     loadComponent: () =>
-      import('./features/task-tab-detail/task-tab-detail.component').then(
-        (m) => m.TaskTabDetailComponent,
+      import('./features/task-item/task-item.component').then(
+        (m) => m.TaskItemComponent,
       ),
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },

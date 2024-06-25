@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TaskTabItemService } from './task-tab-item.service';
+import { TaskItemService } from './task-item.service';
 
-describe('TaskTabItemService', () => {
-  let service: TaskTabItemService;
+describe('TaskItemService', () => {
+  let service: TaskItemService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TaskTabItemService);
+    service = TestBed.inject(TaskItemService);
   });
 
   it('should be created', () => {

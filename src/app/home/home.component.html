@@ -1,27 +1,19 @@
 <header class="w-full px-10 pb-10 flex items-center gap-10">
   <h2>Task Tabs</h2>
-  <button
-    (click)="taskTabBeingAddedOrEdited.set({})"
-    type="button"
-    class="button-17"
-  >
-    Add
+  <button (click)="taskTabBeingAddedOrEdited.set({})" type="button" class="button-17">
+    Add tab
   </button>
 </header>
 
 <section>
   <app-dialog [isOpen]="!!taskTabBeingAddedOrEdited()">
     <ng-template>
-      <app-dialog-form
-        [title]="
+      <app-dialog-form [title]="
           taskTabBeingAddedOrEdited()?.title
             ? taskTabBeingAddedOrEdited()!.title!
             : 'Add a Task Tab'
-        "
-        [formGroup]="taskTabForm"
-        (close)="taskTabBeingAddedOrEdited.set(null)"
-        (save)="taskTabService.add$.next(taskTabForm.getRawValue())"
-      />
+        " [formGroup]="taskTabForm" (close)="taskTabBeingAddedOrEdited.set(null)"
+        (save)="taskTabService.add$.next(taskTabForm.getRawValue())" />
     </ng-template>
   </app-dialog>
 </section>
