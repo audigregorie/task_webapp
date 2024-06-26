@@ -1,19 +1,20 @@
-import { TaskTab } from './task-tab.type';
+import { DeleteTaskTab, TaskTab } from './task-tab.type';
 
 export type TaskItem = {
-  taskTabId: TaskTab['id'];
+  // taskTabId: TaskTab['id'];
+  taskTabId: string;
   id: string;
   title: string;
   checked: boolean;
 };
 
 export type AddTaskItem = {
-  title: Omit<TaskItem, 'id' | 'taskTabId' | 'checked'>;
-  taskTabId: DeleteTaskItem;
+  item: Omit<TaskItem, 'id' | 'taskTabId' | 'checked'>;
+  taskTabId: DeleteTaskTab;
 };
-export type UpdateTaskItem = {
+export type EditTaskItem = {
   id: TaskItem['id'];
-  data: AddTaskItem['title'];
+  data: AddTaskItem['item'];
 };
 
 export type DeleteTaskItem = TaskItem['id'];

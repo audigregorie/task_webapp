@@ -10,8 +10,8 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './dialog-form.component.scss',
 })
 export class DialogFormComponent {
-  formGroup = input.required<FormGroup>();
-  title = input<string>();
-  close = output();
-  save = output();
+  public formGroup = input.required<FormGroup>();
+  public title = input<string>();
+  public close = output();
+  public save = output();
 }

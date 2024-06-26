@@ -5,14 +5,20 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { TaskItem } from '../../shared/types/task-item.type';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { TaskItemHeaderComponent } from './task-item-header/task-item-header.component';
 import { DialogComponent } from '../../shared/ui/dialog/dialog.component';
 import { DialogFormComponent } from '../../shared/ui/dialog-form/dialog-form.component';
+import { TaskItemHeaderComponent } from './ui/task-item-header/task-item-header.component';
+import { TaskItemListComponent } from './ui/task-item-list/task-item-list.component';
 
 @Component({
   selector: 'app-task-item',
   standalone: true,
-  imports: [TaskItemHeaderComponent, DialogComponent, DialogFormComponent],
+  imports: [
+    TaskItemHeaderComponent,
+    DialogComponent,
+    DialogFormComponent,
+    TaskItemListComponent,
+  ],
   templateUrl: './task-item.component.html',
   styleUrl: './task-item.component.scss',
 })
@@ -30,6 +36,12 @@ export class TaskItemComponent {
     this.taskTabService
       .taskTabList()
       .find((taskTab) => taskTab.id === this.params()?.get('id')),
+  );
+
+  public taskItemList = computed(() =>
+    this.taskItemService
+      .taskItemList()
+      .filter((taskItem) => taskItem.taskTabId === this.params()?.get('id')),
   );
 
   public taskItemForm = this.fb.nonNullable.group({

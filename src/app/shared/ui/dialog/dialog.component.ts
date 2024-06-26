@@ -17,8 +17,8 @@ import { Dialog } from '@angular/cdk/dialog';
 })
 export class DialogComponent {
   private dialog = inject(Dialog);
-  template = contentChild.required(TemplateRef);
-  isOpen = input.required<boolean>();
+  private template = contentChild.required(TemplateRef);
+  public isOpen = input.required<boolean>();
 
   constructor() {
     effect(() => {

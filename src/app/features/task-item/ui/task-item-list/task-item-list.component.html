@@ -1,0 +1,12 @@
+<ul>
+  @for (taskItem of taskItemList(); track taskItem.id) {
+  <li>
+    <p>{{ taskItem.title }}</p>
+  </li>
+  } @empty {
+  <div>
+    <h2>Add an item</h2>
+    <p>Click the add button to add your first item to this quicklist</p>
+  </div>
+  }
+</ul>

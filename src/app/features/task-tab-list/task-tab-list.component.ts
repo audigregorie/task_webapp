@@ -10,5 +10,5 @@ import { RouterLink } from '@angular/router';
   styleUrl: './task-tab-list.component.scss',
 })
 export class TaskTabListComponent {
-  taskTabList = input.required<TaskTab[]>();
+  public taskTabList = input.required<TaskTab[]>();
 }

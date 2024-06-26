@@ -17,10 +17,10 @@ export class TaskTabService {
   });
 
   // selectors
-  taskTabList = computed(() => this.state().taskTabList);
+  public taskTabList = computed(() => this.state().taskTabList);
 
   // actions
-  add$ = new Subject<AddTaskTab>();
+  public add$ = new Subject<AddTaskTab>();
 
   constructor() {
     // reducers

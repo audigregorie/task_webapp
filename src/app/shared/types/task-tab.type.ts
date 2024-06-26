@@ -3,15 +3,11 @@ export type TaskTab = {
   title: string;
 };
 
-export type AddTaskTab = {
-  title: string;
-};
+export type AddTaskTab = Omit<TaskTab, 'id'>;
 
-export type UpdateTaskTab = {
+export type EditTaskTab = {
   id: TaskTab['id'];
   data: AddTaskTab;
 };
 
-export type DeleteTaskTab = {
-  id: TaskTab['id'];
-};
+export type DeleteTaskTab = TaskTab['id'];

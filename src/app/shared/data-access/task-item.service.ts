@@ -20,17 +20,17 @@ export class TaskItemService {
   public taskItemList = computed(() => this.state().taskItemList);
 
   // actions
-  add$ = new Subject<AddTaskItem>();
+  public add$ = new Subject<AddTaskItem>();
 
   constructor() {
     // reducers
     this.add$.pipe(takeUntilDestroyed()).subscribe((taskItem) =>
       this.state.update((state) => ({
         ...state,
-        taskItem: [
+        taskItemList: [
           ...state.taskItemList,
           {
-            ...taskItem.title,
+            ...taskItem.item,
             id: Date.now.toString(),
             taskTabId: taskItem.taskTabId,
             checked: false,

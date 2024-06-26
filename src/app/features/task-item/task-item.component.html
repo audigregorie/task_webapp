@@ -1,24 +1,21 @@
 @if (taskTab(); as taskTab) {
-  <app-task-item-header
-    [taskTab]="taskTab"
-    (addItem)="taskItemBeingAddedOrEdited.set({})"
-  />
+<app-task-item-header [taskTab]="taskTab" (addItem)="taskItemBeingAddedOrEdited.set({})" />
 }
 
 <section>
   <app-dialog [isOpen]="!!taskItemBeingAddedOrEdited()">
     <ng-template>
-      <app-dialog-form
-        [title]="'Add a task'"
-        [formGroup]="taskItemForm"
-        (close)="taskItemBeingAddedOrEdited.set(null)"
+      <app-dialog-form [title]="'Add a task'" [formGroup]="taskItemForm" (close)="taskItemBeingAddedOrEdited.set(null)"
         (save)="
           taskItemService.add$.next({
-            title: taskItemForm.getRawValue(),
+            item: taskItemForm.getRawValue(),
             taskTabId: taskTab()?.id!,
           })
-        "
-      />
+        " />
     </ng-template>
   </app-dialog>
+</section>
+
+<section>
+  <app-task-item-list [taskItemList]="taskItemList()" />
 </section>
