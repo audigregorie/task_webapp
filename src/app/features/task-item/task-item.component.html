@@ -1,5 +1,6 @@
 @if (taskTab(); as taskTab) {
-<app-task-item-header [taskTab]="taskTab" (addItem)="taskItemBeingAddedOrEdited.set({})" />
+<app-task-item-header [taskTab]="taskTab" (addItem)="taskItemBeingAddedOrEdited.set({})"
+  (resetTaskTab)="taskItemService.reset$.next($event)" />
 }
 
 <section>

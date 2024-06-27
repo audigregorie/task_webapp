@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { TaskTab } from '../../../../shared/types/task-tab.type';
+import { DeleteTaskTab, TaskTab } from '../../../../shared/types/task-tab.type';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -12,4 +12,5 @@ import { RouterLink } from '@angular/router';
 export class TaskItemHeaderComponent {
   public taskTab = input.required<TaskTab>();
   public addItem = output();
+  public resetTaskTab = output<DeleteTaskTab>();
 }

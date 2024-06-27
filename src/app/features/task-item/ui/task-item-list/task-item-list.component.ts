@@ -1,8 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import {
-  DeleteTaskItem,
-  TaskItem,
-} from '../../../../shared/types/task-item.type';
+import { TaskItem } from '../../../../shared/types/task-item.type';
 
 @Component({
   selector: 'app-task-item-list',
@@ -13,5 +10,5 @@ import {
 })
 export class TaskItemListComponent {
   public taskItemList = input.required<TaskItem[]>();
-  public toggle = output<DeleteTaskItem>();
+  public toggle = output<string>();
 }
