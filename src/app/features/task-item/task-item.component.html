@@ -17,5 +17,5 @@
 </section>
 
 <section>
-  <app-task-item-list [taskItemList]="taskItemList()" />
+  <app-task-item-list [taskItemList]="taskItemList()" (toggle)="taskItemService.toggle$.next($event)" />
 </section>

@@ -1,7 +1,15 @@
 <ul>
   @for (taskItem of taskItemList(); track taskItem.id) {
   <li>
-    <p>{{ taskItem.title }}</p>
+    <div>
+      @if (taskItem.checked) {
+      <span>✅</span>
+      }
+      <p>{{ taskItem.title }}</p>
+    </div>
+    <div>
+      <button (click)="toggle.emit(taskItem.id)" type="button">Toggle</button>
+    </div>
   </li>
   } @empty {
   <div>

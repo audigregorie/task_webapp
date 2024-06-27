@@ -1,7 +1,6 @@
-import { DeleteTaskTab, TaskTab } from './task-tab.type';
+import { DeleteTaskTab } from './task-tab.type';
 
 export type TaskItem = {
-  // taskTabId: TaskTab['id'];
   taskTabId: string;
   id: string;
   title: string;
