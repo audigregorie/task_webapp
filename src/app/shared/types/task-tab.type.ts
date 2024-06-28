@@ -1,13 +1,10 @@
-export type TaskTab = {
+export interface TaskTab {
   id: string;
   title: string;
-};
+}
 
-export type AddTaskTab = Omit<TaskTab, 'id'>;
+export type CreateTaskTab = Omit<TaskTab, 'id'>;
 
-export type EditTaskTab = {
-  id: TaskTab['id'];
-  data: AddTaskTab;
-};
+export type UpdateTaskTab = { id: TaskTab['id']; data: CreateTaskTab };
 
 export type DeleteTaskTab = TaskTab['id'];

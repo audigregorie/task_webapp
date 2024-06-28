@@ -1,8 +1,9 @@
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
-import { AddTaskTab, TaskTab } from '../types/task-tab.type';
+import { CreateTaskTab, UpdateTaskTab, TaskTab } from '../types/task-tab.type';
 import { Subject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { StorageService } from './storage.service';
+import { TaskItemService } from './task-item.service';
 
 export type TaskTabState = {
   taskTabList: TaskTab[];
@@ -15,6 +16,8 @@ export type TaskTabState = {
 })
 export class TaskTabService {
   private storageService = inject(StorageService);
+  private taskItemService = inject(TaskItemService);
+
   // state
   private state = signal<TaskTabState>({
     taskTabList: [],
@@ -27,25 +30,49 @@ export class TaskTabService {
   public loaded = computed(() => this.state().loaded);
 
   // actions
-  public add$ = new Subject<AddTaskTab>();
   public taskTabListLoaded$ = this.storageService.loadTaskTabList();
+  public create$ = new Subject<CreateTaskTab>();
+  public update$ = new Subject<UpdateTaskTab>();
+  public delete$ = this.taskItemService.deleteTaskTab$;
 
   constructor() {
     // reducers
     // add
-    this.add$.pipe(takeUntilDestroyed()).subscribe((taskTab) =>
+    this.create$.pipe(takeUntilDestroyed()).subscribe((createTab) =>
       this.state.update((state) => ({
         ...state,
-        taskTabList: [...state.taskTabList, this.addIdToTaskTab(taskTab)],
+        taskTabList: [...state.taskTabList, this.addIdToTaskTab(createTab)],
       })),
     );
 
     // task tab list loaded from storage
     this.taskTabListLoaded$.pipe(takeUntilDestroyed()).subscribe({
-      next: (taskTabList) =>
-        this.state.update((state) => ({ ...state, taskTabList })),
+      next: (loadList) =>
+        this.state.update((state) => ({ ...state, loadList, loaded: true })),
       error: (err) => this.state.update((state) => ({ ...state, error: err })),
     });
+
+    // delete task tab, deletes task item list as well
+    this.delete$.pipe(takeUntilDestroyed()).subscribe((deleteId) =>
+      this.state.update((state) => ({
+        ...state,
+        taskTabList: state.taskTabList.filter(
+          (taskTab) => taskTab.id !== deleteId,
+        ),
+      })),
+    );
+
+    // edit task tab
+    this.update$.pipe(takeUntilDestroyed()).subscribe((updateId) =>
+      this.state.update((state) => ({
+        ...state,
+        taskTabList: state.taskTabList.map((taskTab) =>
+          taskTab.id === updateId.id
+            ? { ...taskTab, title: updateId.data.title }
+            : taskTab,
+        ),
+      })),
+    );
 
     // effect
     effect(() => {
@@ -56,7 +83,7 @@ export class TaskTabService {
   }
 
   // add id to the task tab
-  private addIdToTaskTab(taskTab: AddTaskTab) {
+  private addIdToTaskTab(taskTab: CreateTaskTab) {
     return {
       ...taskTab,
       id: this.generateSlug(taskTab.title),

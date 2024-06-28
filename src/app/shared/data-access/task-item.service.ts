@@ -1,5 +1,10 @@
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
-import { AddTaskItem, DeleteTaskItem, TaskItem } from '../types/task-item.type';
+import {
+  CreateTaskItem,
+  DeleteTaskItem,
+  TaskItem,
+  UpdateTaskItem,
+} from '../types/task-item.type';
 import { Subject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DeleteTaskTab } from '../types/task-tab.type';
@@ -16,6 +21,7 @@ export type TaskItemState = {
 })
 export class TaskItemService {
   private storageService = inject(StorageService);
+
   // state
   private state = signal<TaskItemState>({
     taskItemList: [],
@@ -28,23 +34,26 @@ export class TaskItemService {
   public loaded = computed(() => this.state().loaded);
 
   // actions
-  public add$ = new Subject<AddTaskItem>();
+  public create$ = new Subject<CreateTaskItem>();
   public toggle$ = new Subject<DeleteTaskItem>();
-  public reset$ = new Subject<DeleteTaskTab>();
+  public reset$ = new Subject<DeleteTaskItem>();
+  public update$ = new Subject<UpdateTaskItem>();
+  public delete$ = new Subject<DeleteTaskItem>();
+  public deleteTaskTab$ = new Subject<DeleteTaskTab>();
   public taskItemListLoaded$ = this.storageService.loadTaskItemList();
 
   constructor() {
     // reducers
-    // add task item
-    this.add$.pipe(takeUntilDestroyed()).subscribe((taskItem) =>
+    // create task item
+    this.create$.pipe(takeUntilDestroyed()).subscribe((createItem) =>
       this.state.update((state) => ({
         ...state,
         taskItemList: [
           ...state.taskItemList,
           {
-            ...taskItem.item,
-            id: Date.now.toString(),
-            taskTabId: taskItem.taskTabId,
+            ...createItem.item,
+            id: Date.now().toString(),
+            taskTabId: createItem.taskTabId,
             checked: false,
           },
         ],
@@ -57,10 +66,7 @@ export class TaskItemService {
         ...state,
         taskItemList: state.taskItemList.map((taskItem) =>
           taskItem.id === taskItemId
-            ? {
-                ...taskItem,
-                checked: !taskItem.checked,
-              }
+            ? { ...taskItem, checked: !taskItem.checked }
             : taskItem,
         ),
       })),
@@ -73,9 +79,9 @@ export class TaskItemService {
         taskItemList: state.taskItemList.map((taskItem) =>
           taskItem.taskTabId === taskTabId
             ? {
-                ...taskItem,
-                checked: false,
-              }
+              ...taskItem,
+              checked: false,
+            }
             : taskItem,
         ),
       })),
@@ -91,6 +97,40 @@ export class TaskItemService {
         })),
       error: (err) => this.state.update((state) => ({ ...state, error: err })),
     });
+
+    // edit item
+    this.update$.pipe(takeUntilDestroyed()).subscribe((updateId) =>
+      this.state.update((state) => ({
+        ...state,
+        taskItemList: state.taskItemList.map((taskItem) =>
+          taskItem.id === updateId.id
+            ? { ...taskItem, title: updateId.data.title }
+            : taskItem,
+        ),
+      })),
+    );
+
+    // delete
+    this.delete$.pipe(takeUntilDestroyed()).subscribe((deleteId) =>
+      this.state.update((state) => ({
+        ...state,
+        taskItemList: state.taskItemList.filter(
+          (taskItem) => taskItem.id !== deleteId,
+        ),
+      })),
+    );
+
+    // delete task tab
+    this.deleteTaskTab$
+      .pipe(takeUntilDestroyed())
+      .subscribe((deleteTaskTabId) =>
+        this.state.update((state) => ({
+          ...state,
+          taskItemList: state.taskItemList.filter(
+            (taskItem) => taskItem.taskTabId !== deleteTaskTabId,
+          ),
+        })),
+      );
 
     // effect
     effect(() => {

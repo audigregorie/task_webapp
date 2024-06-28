@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-import { TaskTab } from '../../shared/types/task-tab.type';
+import { Component, input, output } from '@angular/core';
+import { DeleteTaskTab, TaskTab } from '../../shared/types/task-tab.type';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -11,4 +11,6 @@ import { RouterLink } from '@angular/router';
 })
 export class TaskTabListComponent {
   public taskTabList = input.required<TaskTab[]>();
+  public delete = output<DeleteTaskTab>();
+  public update = output<TaskTab>();
 }

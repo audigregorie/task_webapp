@@ -1,20 +1,21 @@
-<ul>
+<ul class="px-10">
   @for (taskItem of taskItemList(); track taskItem.id) {
-  <li>
-    <div>
-      @if (taskItem.checked) {
-      <span>✅</span>
-      }
-      <p>{{ taskItem.title }}</p>
-    </div>
-    <div>
-      <button (click)="toggle.emit(taskItem.id)" type="button">Toggle</button>
-    </div>
-  </li>
+    <li class="w-fit h-20 flex gap-4 items-center">
+      <div class="flex h-full gap-4 items-center w-[400px]">
+        @if (taskItem.checked) {
+          <span>✅</span>
+        }
+        <p>{{ taskItem.title }}</p>
+      </div>
+      <button (click)="toggle.emit(taskItem.id)" class="button-17">
+        Toggle
+      </button>
+      <button (click)="update.emit(taskItem)" class="button-17">Edit</button>
+      <button (click)="delete.emit(taskItem.id)" class="button-17">
+        Delete
+      </button>
+    </li>
   } @empty {
-  <div>
-    <h2>Add an item</h2>
     <p>Click the add button to add your first item to this quicklist</p>
-  </div>
   }
 </ul>

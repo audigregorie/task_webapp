@@ -1,19 +1,20 @@
 import { DeleteTaskTab } from './task-tab.type';
 
 export type TaskItem = {
-  taskTabId: string;
   id: string;
+  taskTabId: string;
   title: string;
   checked: boolean;
 };
 
-export type AddTaskItem = {
+export type CreateTaskItem = {
   item: Omit<TaskItem, 'id' | 'taskTabId' | 'checked'>;
   taskTabId: DeleteTaskTab;
 };
-export type EditTaskItem = {
+
+export type UpdateTaskItem = {
   id: TaskItem['id'];
-  data: AddTaskItem['item'];
+  data: CreateTaskItem['item'];
 };
 
 export type DeleteTaskItem = TaskItem['id'];

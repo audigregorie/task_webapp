@@ -1,16 +1,19 @@
-<header class="flex gap-10">
-  <div>
-    <a routerLink="/">Back</a>
-    <h2>{{ taskTab().title }}</h2>
-  </div>
-
-  <div>
+<header class="flex flex-col gap-10 px-10">
+  <div class="flex gap-10">
+    <button routerLink="/" class="button-17">Back</button>
     <button (click)="addItem.emit()" type="button" class="button-17">
       Add item
     </button>
-
-    <button (click)="resetTaskTab.emit(taskTab().id)" type="button" class="button 17">
+    <button
+      (click)="resetTaskTab.emit(taskTab().id)"
+      type="button"
+      class="button-17"
+    >
       Reset
     </button>
+  </div>
+
+  <div>
+    <h2>{{ taskTab().title }}</h2>
   </div>
 </header>

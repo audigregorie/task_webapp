@@ -22,7 +22,8 @@ import { TaskTabListComponent } from '../features/task-tab-list/task-tab-list.co
 export class HomeComponent {
   public taskTabService = inject(TaskTabService);
   public fb = inject(FormBuilder);
-  public taskTabBeingAddedOrEdited = signal<Partial<TaskTab> | null>(null);
+
+  public taskTabBeingEdited = signal<Partial<TaskTab> | null>(null);
 
   public taskTabForm = this.fb.nonNullable.group({
     title: [''],
@@ -30,8 +31,12 @@ export class HomeComponent {
 
   constructor() {
     effect(() => {
-      if (!this.taskTabBeingAddedOrEdited()) {
+      if (!this.taskTabBeingEdited()) {
         this.taskTabForm.reset();
+      } else {
+        this.taskTabForm.patchValue({
+          title: this.taskTabBeingEdited()?.title,
+        });
       }
     });
   }

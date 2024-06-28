@@ -1,9 +1,11 @@
 <ul>
   @for (taskTab of taskTabList(); track taskTab.id) {
-  <li>
-    <a routerLink="/task-tab/{{ taskTab.id }}">{{ taskTab.title }}</a>
-  </li>
+    <li class="w-96 flex gap-10">
+      <a routerLink="/task-tab/{{ taskTab.id }}">{{ taskTab.title }}</a>
+      <button (update)="update.emit(taskTab)" type="button">Edit</button>
+      <button (delete)="delete.emit(taskTab.id)">Delete</button>
+    </li>
   } @empty {
-  <p>Click the add button to create your first task tab!</p>
+    <p>Click the add button to create your first task tab!</p>
   }
 </ul>

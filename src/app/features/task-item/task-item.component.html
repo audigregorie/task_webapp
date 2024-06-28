@@ -1,22 +1,40 @@
 @if (taskTab(); as taskTab) {
-<app-task-item-header [taskTab]="taskTab" (addItem)="taskItemBeingAddedOrEdited.set({})"
-  (resetTaskTab)="taskItemService.reset$.next($event)" />
+  <app-task-item-header
+    [taskTab]="taskTab"
+    (addItem)="taskItemBeingEdited.set({})"
+    (resetTaskTab)="taskItemService.reset$.next($event)"
+  />
 }
 
-<section>
-  <app-dialog [isOpen]="!!taskItemBeingAddedOrEdited()">
-    <ng-template>
-      <app-dialog-form [title]="'Add a task'" [formGroup]="taskItemForm" (close)="taskItemBeingAddedOrEdited.set(null)"
-        (save)="
-          taskItemService.add$.next({
-            item: taskItemForm.getRawValue(),
-            taskTabId: taskTab()?.id!,
-          })
-        " />
-    </ng-template>
-  </app-dialog>
+<section class="w-full px-10">
+  <app-task-item-list
+    [taskItemList]="taskItemList()"
+    (update)="taskItemBeingEdited.set($event)"
+    (delete)="taskItemService.delete$.next($event)"
+    (toggle)="taskItemService.toggle$.next($event)"
+  />
 </section>
 
-<section>
-  <app-task-item-list [taskItemList]="taskItemList()" (toggle)="taskItemService.toggle$.next($event)" />
-</section>
+<app-dialog [isOpen]="!!taskItemBeingEdited()" class="dialog-container">
+  <ng-template>
+    <div class="flex justify-center items-center">
+      <app-dialog-form
+        [title]="'Add a task'"
+        [formGroup]="taskItemForm"
+        (close)="taskItemBeingEdited.set(null)"
+        (save)="
+          taskItemBeingEdited()?.id
+            ? taskItemService.update$.next({
+                id: taskItemBeingEdited()!.id!,
+                data: taskItemForm.getRawValue(),
+              })
+            : taskItemService.create$.next({
+                item: taskItemForm.getRawValue(),
+                taskTabId: taskTab()?.id!,
+              })
+        "
+        class="form-content"
+      />
+    </div>
+  </ng-template>
+</app-dialog>

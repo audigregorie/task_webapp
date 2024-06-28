@@ -28,7 +28,7 @@ export class TaskItemComponent {
   public route = inject(ActivatedRoute);
   public fb = inject(FormBuilder);
 
-  public taskItemBeingAddedOrEdited = signal<Partial<TaskItem> | null>(null);
+  public taskItemBeingEdited = signal<Partial<TaskItem> | null>(null);
 
   public params = toSignal(this.route.paramMap);
 
@@ -50,8 +50,12 @@ export class TaskItemComponent {
 
   constructor() {
     effect(() => {
-      if (!this.taskItemBeingAddedOrEdited()) {
+      if (!this.taskItemBeingEdited()) {
         this.taskItemForm.reset();
+      } else {
+        this.taskItemForm.patchValue({
+          title: this.taskItemBeingEdited()?.title,
+        });
       }
     });
   }
